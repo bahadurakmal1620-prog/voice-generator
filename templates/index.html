@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Free Voice Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15211F;
+    --panel:#1C2B28;
+    --panel-border:#33453F;
+    --amber:#D98E48;
+    --mint:#6FB89A;
+    --text:#F2EDE4;
+    --text-muted:#92A6A0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:48px 20px;
+  }
+  .wrap{ width:100%; max-width:620px; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.12em;
+    color:var(--mint);
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:900;
+    font-size:52px;
+    line-height:0.95;
+    margin:6px 0 4px;
+    letter-spacing:.01em;
+  }
+  .tagline{ color:var(--text-muted); margin:0 0 28px; font-size:15px; }
+
+  .bars{ display:flex; align-items:flex-end; gap:5px; height:34px; margin:18px 0 26px; }
+  .bars span{
+    width:6px; border-radius:2px;
+    background:var(--amber);
+    animation:eq 1.1s ease-in-out infinite;
+  }
+  .bars span:nth-child(2){ background:var(--mint); animation-delay:.12s; }
+  .bars span:nth-child(3){ animation-delay:.24s; }
+  .bars span:nth-child(4){ background:var(--mint); animation-delay:.36s; }
+  .bars span:nth-child(5){ animation-delay:.48s; }
+  .bars span:nth-child(6){ background:var(--mint); animation-delay:.6s; }
+  @keyframes eq{
+    0%,100%{ height:8px; }
+    50%{ height:34px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bars span{ animation:none; height:18px; }
+  }
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:12px;
+    padding:28px;
+  }
+
+  label{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin-bottom:8px;
+  }
+
+  textarea, input[type=text], select{
+    width:100%;
+    background:#16221F;
+    border:1px solid var(--panel-border);
+    border-radius:8px;
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    padding:12px 14px;
+  }
+  textarea{ resize:vertical; }
+  textarea:focus, input[type=text]:focus, select:focus{
+    outline:2px solid var(--mint);
+    outline-offset:1px;
+  }
+
+  .row{ margin-bottom:20px; }
+  .count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--text-muted);
+    text-align:right;
+    margin-top:6px;
+  }
+  .count.over{ color:#E08A6B; }
+
+  #languageResults{
+    margin-top:4px;
+    border:1px solid var(--panel-border);
+    border-radius:8px;
+    max-height:160px;
+    overflow-y:auto;
+    background:#16221F;
+  }
+  #languageResults div{
+    padding:9px 14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    cursor:pointer;
+  }
+  #languageResults div:hover{ background:#223330; color:var(--mint); }
+
+  .sliders{ display:flex; gap:24px; margin-bottom:24px; }
+  .slider-block{ flex:1; }
+  .slider-block .val{ color:var(--amber); font-family:'IBM Plex Mono',monospace; }
+
+  input[type=range]{
+    -webkit-appearance:none;
+    width:100%;
+    height:4px;
+    background:var(--panel-border);
+    border-radius:2px;
+    margin-top:6px;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--amber);
+    border:2px solid var(--bg);
+    cursor:pointer;
+    margin-top:-1px;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--amber);
+    border:2px solid var(--bg);
+    cursor:pointer;
+  }
+
+  .actions{ display:flex; gap:12px; margin-top:6px; }
+  button{
+    flex:1;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:13px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .08s ease, opacity .15s ease;
+  }
+  button:active{ transform:scale(0.98); }
+  button:focus-visible{ outline:2px solid var(--mint); outline-offset:2px; }
+
+  #listenBtn{
+    background:transparent;
+    border:1px solid var(--mint);
+    color:var(--mint);
+  }
+  #listenBtn:hover{ background:rgba(111,184,154,0.1); }
+
+  #downloadBtn{
+    background:var(--amber);
+    color:#1C1208;
+  }
+  #downloadBtn:hover{ opacity:0.88; }
+
+  .hint{
+    font-size:12px; color:var(--text-muted); margin-top:18px; text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Free &middot; No sign-up &middot; No API key</div>
+  <h1>Voice Generator</h1>
+  <p class="tagline">Type it. Pick a voice. Hear it back.</p>
+
+  <div class="bars" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="panel">
+
+    <div class="row">
+      <label for="textInput">Your text</label>
+      <textarea id="textInput" rows="5" placeholder="Type or paste what you want spoken..." oninput="updateWordCount()"></textarea>
+      <div id="wordCount" class="count">0 / 800 words</div>
+    </div>
+
+    <div class="row">
+      <label for="languageSearch">Search language</label>
+      <input type="text" id="languageSearch" placeholder="e.g. English, Urdu, Arabic" oninput="filterLanguages()" autocomplete="off">
+      <div id="languageResults"></div>
+    </div>
+
+    <div class="row" id="voiceWrapper" style="display:none;">
+      <label for="voiceSelect">Select voice</label>
+      <select id="voiceSelect"></select>
+    </div>
+
+    <div class="sliders">
+      <div class="slider-block">
+        <label>Speed <span class="val" id="speedLabel">0%</span></label>
+        <input type="range" id="speedSlider" min="-50" max="50" value="0" oninput="document.getElementById('speedLabel').innerText = this.value + '%'">
+      </div>
+      <div class="slider-block">
+        <label>Pitch <span class="val" id="pitchLabel">0Hz</span></label>
+        <input type="range" id="pitchSlider" min="-50" max="50" value="0" oninput="document.getElementById('pitchLabel').innerText = this.value + 'Hz'">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="listenBtn" onclick="playVoice()">Listen</button>
+      <button id="downloadBtn" onclick="downloadVoice()">Download</button>
+    </div>
+
+    <audio id="audioPlayer" controls style="display:none; width:100%; margin-top:18px;"></audio>
+
+  </div>
+
+  <p class="hint">Powered by free neural voices &middot; no account needed</p>
+</div>
+
+<script>
+    const MAX_WORDS = 800;
+    let allVoices = [];
+
+    async function loadVoices() {
+        const res = await fetch('/api/voices');
+        allVoices = await res.json();
+    }
+    loadVoices();
+
+    function getLanguageName(voice) {
+        const parts = voice.FriendlyName.split(' - ');
+        return parts.length > 1 ? parts[1] : voice.Locale;
+    }
+
+    function filterLanguages() {
+        const query = document.getElementById('languageSearch').value.toLowerCase();
+        const resultsDiv = document.getElementById('languageResults');
+        resultsDiv.innerHTML = '';
+        document.getElementById('voiceWrapper').style.display = 'none';
+
+        if (query.length === 0) return;
+
+        const seen = {};
+        const matches = [];
+        allVoices.forEach(v => {
+            const langName = getLanguageName(v);
+            if (langName.toLowerCase().includes(query) && !seen[v.Locale]) {
+                seen[v.Locale] = true;
+                matches.push({ locale: v.Locale, name: langName });
+            }
+        });
+
+        matches.slice(0, 15).forEach(m => {
+            const div = document.createElement('div');
+            div.textContent = m.name;
+            div.onclick = () => selectLanguage(m.locale, m.name);
+            resultsDiv.appendChild(div);
+        });
+    }
+
+    function selectLanguage(locale, name) {
+        document.getElementById('languageSearch').value = name;
+        document.getElementById('languageResults').innerHTML = '';
+
+        const voiceSelect = document.getElementById('voiceSelect');
+        voiceSelect.innerHTML = '';
+
+        const voicesForLang = allVoices.filter(v => v.Locale === locale);
+        voicesForLang.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.ShortName;
+            const nameMatch = v.FriendlyName.match(/Microsoft (\w+) Online/);
+            const voiceName = nameMatch ? nameMatch[1] : v.ShortName;
+            opt.textContent = `${voiceName} (${v.Gender})`;
+            voiceSelect.appendChild(opt);
+        });
+
+        document.getElementById('voiceWrapper').style.display = 'block';
+    }
+
+    function updateWordCount() {
+        const text = document.getElementById('textInput').value.trim();
+        const count = text === '' ? 0 : text.split(/\s+/).length;
+        const display = document.getElementById('wordCount');
+        display.innerText = count + ' / ' + MAX_WORDS + ' words';
+        display.classList.toggle('over', count > MAX_WORDS);
+    }
+
+    function buildVoiceUrl(mode) {
+        const text = document.getElementById('textInput').value;
+        const voiceSelect = document.getElementById('voiceSelect');
+        if (!voiceSelect.value) {
+            alert('Please search and select a voice first.');
+            return null;
+        }
+        if (!text.trim()) {
+            alert('Please type some text first.');
+            return null;
+        }
+        const voice = voiceSelect.value;
+        const speed = document.getElementById('speedSlider').value;
+        const pitch = document.getElementById('pitchSlider').value;
+
+        const rateParam = (speed >= 0 ? '+' : '') + speed + '%';
+        const pitchParam = (pitch >= 0 ? '+' : '') + pitch + 'Hz';
+
+        return `/test-voice?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}&mode=${mode}&rate=${encodeURIComponent(rateParam)}&pitch=${encodeURIComponent(pitchParam)}`;
+    }
+
+    async function playVoice() {
+        const url = buildVoiceUrl('preview');
+        if (!url) return;
+
+        const listenBtn = document.getElementById('listenBtn');
+        const originalLabel = listenBtn.textContent;
+        listenBtn.textContent = 'Generating...';
+        listenBtn.disabled = true;
+
+        try {
+            const res = await fetch(url);
+            if (res.status === 429) {
+                alert("You're generating voice too quickly. Please wait a few seconds and try again.");
+                return;
+            }
+            if (!res.ok) throw new Error('Server error');
+            const blob = await res.blob();
+            const audioUrl = URL.createObjectURL(blob);
+
+            const player = document.getElementById('audioPlayer');
+            player.src = audioUrl;
+            player.style.display = 'block';
+            player.play();
+        } catch (err) {
+            alert('Something went wrong generating the voice. Please try again in a moment.');
+        } finally {
+            listenBtn.textContent = originalLabel;
+            listenBtn.disabled = false;
+        }
+    }
+
+    async function downloadVoice() {
+        const url = buildVoiceUrl('download');
+        if (!url) return;
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        const originalLabel = downloadBtn.textContent;
+        downloadBtn.textContent = 'Generating...';
+        downloadBtn.disabled = true;
+
+        try {
+            const res = await fetch(url);
+            if (res.status === 429) {
+                alert("You're generating voice too quickly. Please wait a few seconds and try again.");
+                return;
+            }
+            if (!res.ok) throw new Error('Server error');
+            const blob = await res.blob();
+            const downloadUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'voice.mp3';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(downloadUrl);
+        } catch (err) {
+            alert('Something went wrong generating the voice. Please try again in a moment.');
+        } finally {
+            downloadBtn.textContent = originalLabel;
+            downloadBtn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
