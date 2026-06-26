@@ -54,6 +54,10 @@ def sitemap():
 def robots():
     return send_file('static/robots.txt', mimetype='text/plain')
 
+@app.route('/google81f26bc2f2e84733.html')
+def google_verify():
+    return send_file('static/google81f26bc2f2e84733.html')
+
 @app.route('/api/voices')
 def get_voices():
     return jsonify(VOICES_CACHE)
