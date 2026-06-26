@@ -46,6 +46,14 @@ def privacy():
 def terms():
     return render_template('terms.html')
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_file('static/sitemap.xml', mimetype='application/xml')
+
+@app.route('/robots.txt')
+def robots():
+    return send_file('static/robots.txt', mimetype='text/plain')
+
 @app.route('/api/voices')
 def get_voices():
     return jsonify(VOICES_CACHE)

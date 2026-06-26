@@ -1,0 +1,6 @@
+﻿User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /test-voice
+
+Sitemap: https://web-production-1f278a.up.railway.app/sitemap.xml
