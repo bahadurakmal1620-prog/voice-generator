@@ -22,7 +22,6 @@ def split_into_chunks(text, limit=CHUNK_WORD_LIMIT):
         chunks.append(' '.join(words[i:i+limit]))
     return chunks if chunks else ['']
 
-# Fetch the voice list ONCE when the server starts, instead of on every visit
 print("Loading voice list...")
 VOICES_CACHE = asyncio.run(edge_tts.list_voices())
 print(f"Loaded {len(VOICES_CACHE)} voices.")
@@ -30,6 +29,22 @@ print(f"Loaded {len(VOICES_CACHE)} voices.")
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/privacy-policy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
 
 @app.route('/api/voices')
 def get_voices():
@@ -66,4 +81,4 @@ def test_voice():
     )
 
 if __name__ == '__main__':
-    app.run(debug=True , host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
