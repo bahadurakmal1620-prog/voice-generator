@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, send_file, render_template, jsonify
+﻿from flask import Flask, request, send_file, render_template, jsonify, Response
 import asyncio
 import edge_tts
 import io
@@ -64,11 +64,15 @@ def terms():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    return send_file('static/sitemap.xml', mimetype='application/xml')
+    with open('static/sitemap.xml', 'r') as f:
+        content = f.read()
+    return Response(content, mimetype='application/xml')
 
 @app.route('/robots.txt')
 def robots():
-    return send_file('static/robots.txt', mimetype='text/plain')
+    with open('static/robots.txt', 'r') as f:
+        content = f.read()
+    return Response(content, mimetype='text/plain')
 
 @app.route('/google81f26bc2f2e84733.html')
 def google_verify():
