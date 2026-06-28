@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-WGG3QXTRWB"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-WGG3QXTRWB");</script>
+<head>
 <meta charset="UTF-8">
 <title>Free Voice Generator - Text to Speech in 50+ Languages</title>
 <meta name="description" content="Free online text to speech generator. Convert text to natural AI voice in English, Urdu, Hindi, Arabic, Spanish and 50+ languages. No signup required. Download MP3 free.">
@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-WGG3QXTRWB"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-WGG3QXTRWB");</script>
 <style>
   :root{
     --bg:#15211F;
@@ -32,6 +33,10 @@
     padding:48px 20px;
   }
   .wrap{ width:100%; max-width:860px; }
+
+  nav{margin-bottom:32px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  nav a{color:var(--mint);text-decoration:none;margin-right:20px;}
+  nav a:hover{text-decoration:underline;}
 
   .eyebrow{
     font-family:'IBM Plex Mono',monospace;
@@ -190,6 +195,49 @@
     font-size:12px; color:var(--text-muted); margin-top:18px; text-align:center;
   }
 
+  .faq-section{
+    margin-top:48px;
+  }
+  .faq-section h2{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:900;
+    font-size:36px;
+    margin-bottom:24px;
+    color:var(--text);
+  }
+  .faq-item{
+    border:1px solid var(--panel-border);
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .faq-question{
+    width:100%;
+    background:var(--panel);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    padding:16px 20px;
+    text-align:left;
+    cursor:pointer;
+    border:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .faq-question:hover{ background:#223330; }
+  .faq-question span{ color:var(--amber); font-size:20px; }
+  .faq-answer{
+    display:none;
+    padding:16px 20px;
+    background:#16221F;
+    color:var(--text-muted);
+    font-size:14px;
+    line-height:1.7;
+  }
+  .faq-answer.open{ display:block; }
+
   @media (max-width: 480px){
     body{ padding:28px 14px; }
     h1{ font-size:38px; }
@@ -203,12 +251,13 @@
 </head>
 <body>
 <div class="wrap">
-  <nav style="margin-bottom:32px;font-family:'IBM Plex Mono',monospace;font-size:13px;">
-    <a href="/" style="color:var(--mint);text-decoration:none;margin-right:20px;">Home</a>
-    <a href="/about" style="color:var(--mint);text-decoration:none;margin-right:20px;">About</a>
-    <a href="/contact" style="color:var(--mint);text-decoration:none;margin-right:20px;">Contact</a>
-    <a href="/privacy-policy" style="color:var(--mint);text-decoration:none;margin-right:20px;">Privacy</a>
-    <a href="/terms" style="color:var(--mint);text-decoration:none;">Terms</a>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy-policy">Privacy</a>
+    <a href="/terms">Terms</a>
   </nav>
 
   <div class="eyebrow">Free &middot; No sign-up &middot; No API key</div>
@@ -259,6 +308,102 @@
   </div>
 
   <p class="hint">Powered by free neural voices &middot; no account needed</p>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What is a free voice generator? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        A free voice generator is an online tool that converts written text into spoken audio using artificial intelligence. Our tool uses advanced neural text-to-speech technology to produce natural, human-like voices in over 50 languages, completely free with no account required.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is this text to speech tool really free? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Yes, completely free. There are no hidden charges, no subscription plans, and no account required. You can generate and download as many voice files as you need at no cost.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Which languages does this voice generator support? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Our voice generator supports over 50 languages including English, Urdu, Hindi, Arabic, Spanish, French, German, Chinese, Japanese, Korean, Portuguese, Russian, Turkish, and many more. Each language has multiple voice options including male and female voices.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I use this for Urdu text to speech? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Our tool fully supports Urdu text to speech with natural neural voices. Simply search for Urdu in the language search box, select your preferred voice (male or female), type or paste your Urdu text, and click Listen or Download to get your audio file.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I download the generated voice as an MP3 file? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. After generating your voice, click the Download button to save the audio as an MP3 file directly to your device. You can use this file in videos, podcasts, presentations, or any other project.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I use this voice generator for YouTube videos? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Absolutely. Many content creators use our free voice generator to create voiceovers for YouTube videos, TikTok content, Instagram reels, and podcasts. Simply type your script, generate the voice, download the MP3, and add it to your video editor.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How do I adjust the speed and pitch of the voice? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Use the Speed and Pitch sliders below the voice selector. Drag the Speed slider right to make the voice faster or left to slow it down. Drag the Pitch slider up for a higher voice or down for a deeper one. Changes apply instantly when you generate the next audio.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there a word limit for text to speech conversion? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        You can convert up to 800 words per generation. For longer content, simply split your text into sections and generate each one separately, then combine the audio files in any free audio editor.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do you store my text or audio files? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        No. We do not store any text you enter or any audio files you generate. All processing happens in real time and is immediately discarded after delivery. Your content remains completely private.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Does this work on mobile phones? <span>+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Our voice generator is fully optimized for mobile phones, tablets, and desktop computers. You can generate and download voice files directly from your phone browser with no app installation required.
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -412,6 +557,18 @@
         } finally {
             downloadBtn.textContent = originalLabel;
             downloadBtn.disabled = false;
+        }
+    }
+
+    function toggleFaq(btn) {
+        const answer = btn.nextElementSibling;
+        const span = btn.querySelector('span');
+        const isOpen = answer.classList.contains('open');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+        document.querySelectorAll('.faq-question span').forEach(s => s.textContent = '+');
+        if (!isOpen) {
+            answer.classList.add('open');
+            span.textContent = '-';
         }
     }
 </script>
