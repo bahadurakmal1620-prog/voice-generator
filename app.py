@@ -2,6 +2,7 @@
 import asyncio
 import edge_tts
 import io
+import threading
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
@@ -23,7 +24,22 @@ def split_into_chunks(text, limit=CHUNK_WORD_LIMIT):
     return chunks if chunks else ['']
 
 print("Loading voice list...")
-VOICES_CACHE = asyncio.run(edge_tts.list_voices())
+
+def run_async(coro):
+    result = {}
+    def run():
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            result['value'] = loop.run_until_complete(coro)
+        finally:
+            loop.close()
+    t = threading.Thread(target=run)
+    t.start()
+    t.join()
+    return result['value']
+
+VOICES_CACHE = run_async(edge_tts.list_voices())
 print(f"Loaded {len(VOICES_CACHE)} voices.")
 
 @app.route('/')
@@ -83,7 +99,7 @@ def test_voice():
         buffer.seek(0)
         return buffer
 
-    audio_buffer = asyncio.run(generate_all())
+    audio_buffer = run_async(generate_all())
 
     return send_file(
         audio_buffer,
